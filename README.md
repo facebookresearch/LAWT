@@ -10,11 +10,11 @@ This directory contains the source code for the two papers [Linear Algebra with 
 * A NVIDIA/CUDA GPU is recommended of you intend to train models: if you do not have one, set `--cpu true` (and be very patient). CPU-only inference works fine.
 
 ## Running the programs
-To run the program: `python train.py --dump_path MYPATH --exp_name EXPNAME --exp_id EXPID  --parameters (see below)`. 
+To run the program: `python train.py --dump_path MYPATH --exp_name EXPNAME --exp_id EXPID  --parameters (see below)`.
 
 Training logs will be found in `MYPATH/EXPNAME/EXPID/train.log`, trained models will be `MYPATH/EXPNAME/EXPID/*.pth` . Please make MYPATH an absolute path: relative paths seem not to work on some systems. `--dump_path`and `--exp_name` are mandatory. If `--exp_id`is missing, the program will generate a random one. If `MYPATH/EXPNAME/EXPID`already exists, the program will reload the last saved model, and take it from there (i.e. relaunch an experiment).
 
-To run inference/tests on a trained model : copy the runtime parameters from the corresponding `train.log` file, change the `exp_name` and `exp_id`, and set `--eval_only true` and `--reload_model MODELPATH` (the full path to the saved model). When testing out of distribution, ajust parameters accordingly (e.g. change `eigen_test_distribution`).
+To run inference/tests on a trained model : copy the runtime parameters from the corresponding `train.log` file, change the `exp_name` and `exp_id`, and set `--eval_only true` and `--reload_model MODELPATH` (the full path to the saved model). When testing out of distribution, adjust parameters accordingly (e.g. change `eigen_test_distribution`).
 
 ## Important Parameters
 
@@ -27,24 +27,24 @@ To run inference/tests on a trained model : copy the runtime parameters from the
 `--generator` matrices with random `uniform` or `gaussian` distributed coefficients
 
 `--max_input_coeff` range of matrix coefficient
-           
-`--min_dimension` `--max_dimension` `--rectangular` matrix dimensions will be randomly generated from min to max_dimension (inclusive). Square matrices are generated, unless ``rectangular`is true. Use `force_dimension` to generate rectangular matrices of a fixed size. Note: some problems only allow for square, or symmetric, matrices, see the problem descriptions in the paper.
-            
+
+`--min_dimension` `--max_dimension` `--rectangular` matrix dimensions will be randomly generated from min to max_dimension (inclusive). Square matrices are generated, unless `rectangular`is true. Use `force_dimension` to generate rectangular matrices of a fixed size. Note: some problems only allow for square, or symmetric, matrices, see the problem descriptions in the paper.
+
 `--eigen_distribution` eigenvalue distribution of the train set (semicircle, positive, uniform, gaussian, laplace, positive2, marcenko), for OOD experiments
 
-`--eigen_test_distribution` main eigenvalue test distribution (semicircle, positive, uniform, gaussian, laplace, positive2, marcenko)"
+`--eigen_test_distribution` main eigenvalue test distribution (semicircle, positive, uniform, gaussian, laplace, positive2, marcenko)
 
 `--additional_test_distributions` comma separated list of additional test distributions (for the eigenvalue, eigenvector and symmetric inversion experiments)
- 
+
 
 ### Matrix encoding
 
- --output_encoding` `--input_encoding` : string of comma-separated parameters 
+ `--output_encoding` `--input_encoding` : string of comma-separated parameters
 * FP15, precision, max_exp
 * float, precision, base_int
 * floatsymbol, precision
 
-precision in decimal places (significant digits - 1) for the 4 encodings from the paper, define: 
+precision in decimal places (significant digits - 1) for the 4 encodings from the paper, define:
 * P10: "float,2,10"
 * P1000: "float,2,1000"
 * B1999: "floatsymbol,2"
@@ -61,7 +61,7 @@ precision in decimal places (significant digits - 1) for the 4 encodings from th
 `--eval_distrib` distributions to use at evaluation, for ood experiments
 
 `--eval_verbose`set to one to export model prediction (in order to study failure cases)
-    
+
 
 ### float16 / AMP API
 `--fp16` use float16
@@ -76,7 +76,7 @@ precision in decimal places (significant digits - 1) for the 4 encodings from th
 `--enc_emb_dim` dimensions in the encoder (the FFN hidden layer has 4 times this numbers)
 
 `--dec_emb_dim` dimensions in the decoder (the FFN hidden layer has 4 times this numbers)
- 
+
 `--n_enc_heads` attention heads in the encoder (must divide `enc_emb_dim`)
 
 `--n_dec_heads` attention heads in the decoder (must divide `dec_emb_dim`)
@@ -99,7 +99,7 @@ precision in decimal places (significant digits - 1) for the 4 encodings from th
 
  `src/model/transformer.py`: the transformer code, initialized in `src/model/__init__.py`
 
- `src/envs/numeric.py`: problem-specific code, and arguments. Example generation is in gen_expr(), test-time evaluation of a transformer prediction in check_predictions(). 
+ `src/envs/numeric.py`: problem-specific code, and arguments. Example generation is in gen_expr(), test-time evaluation of a transformer prediction in check_predictions().
 
  `src/envs/generators.py`: generation and evaluation routines for each task (addition, eigenvalues, inverse &c.). For each task, generate() is called by gen_expr() (generates a problem instance for this task), evaluate() by check_predictions() (verifies a model predition for this task).
 
@@ -110,18 +110,18 @@ precision in decimal places (significant digits - 1) for the 4 encodings from th
 
 The code allows to reproduce all experiments in the papers, except those from appendix E from LAWT (alternative architectures).
 
-The `sweeps` directory contains json files with the parameters used for main experiments in LAWT (transposition, addition, multiplication, eigenvalues, eigenvectors, inversion), and the out-of-distribution experiments from WIMTD (`ev_generators.json`, corresponding to seven experiments, one for each value of `--eigen_distribution`). 
+The `sweeps` directory contains json files with the parameters used for main experiments in LAWT (transposition, addition, multiplication, eigenvalues, eigenvectors, inversion), and the out-of-distribution experiments from WIMTD (`ev_generators.json`, corresponding to seven experiments, one for each value of `--eigen_distribution`).
 
 Trained models for different operations can be downloaded at the links below, each tarball contains a model (*.pth) a training log file, and a pickle file containing the parameters :
-* Transposition `https://dl.fbaipublicfiles.com/LAWT/transpose.tar.gz` 
-* Matrix addition `https://dl.fbaipublicfiles.com/LAWT/add.tar.gz` 
-* Matrix multiplication `https://dl.fbaipublicfiles.com/LAWT/product.tar.gz` 
-* Eigenvalues, trained on semicircle matrices `https://dl.fbaipublicfiles.com/LAWT/eigenvalue_semicircle.tar.gz` 
-* Eigenvalues, trained on Laplace matrices `https://dl.fbaipublicfiles.com/LAWT/eigenvalue_laplace.tar.gz` 
-* Eigenvectors `https://dl.fbaipublicfiles.com/LAWT/eigenvectors.tar.gz` 
-* Matrix inverse `https://dl.fbaipublicfiles.com/LAWT/inverse.tar.gz` 
+* [Transposition](https://dl.fbaipublicfiles.com/LAWT/transpose.tar.gz)
+* [Matrix addition](https://dl.fbaipublicfiles.com/LAWT/add.tar.gz)
+* [Matrix multiplication](https://dl.fbaipublicfiles.com/LAWT/product.tar.gz)
+* [Eigenvalues, trained on semicircle matrices](https://dl.fbaipublicfiles.com/LAWT/eigenvalue_semicircle.tar.gz)
+* [Eigenvalues, trained on Laplace matrices](https://dl.fbaipublicfiles.com/LAWT/eigenvalue_laplace.tar.gz)
+* [Eigenvectors](https://dl.fbaipublicfiles.com/LAWT/eigenvectors.tar.gz)
+* [Matrix inverse](https://dl.fbaipublicfiles.com/LAWT/inverse.tar.gz)
 
-The data for the failure case analyses in WIMTD can be found in the `https://dl.fbaipublicfiles.com/LAWT/failures/` directory (files `eigenvectors_50k_9pc.gz`, `eigenvectors_5k_70pc`, `eigenvectors_50k_6x6.gz` and `inversion_50k.gz`). When unzipped in the `failures`directory, they can be read using the notebook in `notebooks`. They can also be reproduced by training models, using the parameters from `sweeps/eigenvectors.json` and `sweeps/invert.json`, or using the models uploaded on AWS (see above), and then testing the trained models on large datasets (setting `--eval_verbose 1`, `--eval_only true` and `--eval_size 50000` or larger).
+The data for the failure case analyses in WIMTD can be found in the (https://dl.fbaipublicfiles.com/LAWT/failures/) directory (files `eigenvectors_50k_9pc.gz`, `eigenvectors_5k_70pc`, `eigenvectors_50k_6x6.gz` and `inversion_50k.gz`). When unzipped in the `failures`directory, they can be read using the notebook in `notebooks`. They can also be reproduced by training models, using the parameters from `sweeps/eigenvectors.json` and `sweeps/invert.json`, or using the models uploaded on AWS (see above), and then testing the trained models on large datasets (setting `--eval_verbose 1`, `--eval_only true` and `--eval_size 50000` or larger).
 
 ## License - Community
 
@@ -152,7 +152,3 @@ What is my math transformer doing? - Three experiments on explainability and gen
   publisher = {arXiv},
   year = {2022}
 }`
-
-
-
-
