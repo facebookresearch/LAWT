@@ -117,7 +117,7 @@ Trained models for different operations can be downloaded at the links below, ea
 * [Matrix addition](https://dl.fbaipublicfiles.com/LAWT/add.tar.gz)
 * [Matrix multiplication](https://dl.fbaipublicfiles.com/LAWT/product.tar.gz)
 * [Eigenvalues, trained on semicircle matrices](https://dl.fbaipublicfiles.com/LAWT/eigenvalue_semicircle.tar.gz)
-* [Eigenvalues, trained on Laplace matrices](https://dl.fbaipublicfiles.com/LAWT/eigenvalue_laplace.tar.gz`
+* [Eigenvalues, trained on Laplace matrices](https://dl.fbaipublicfiles.com/LAWT/eigenvalue_laplace.tar.gz)
 * [Eigenvectors](https://dl.fbaipublicfiles.com/LAWT/eigenvectors.tar.gz)
 * [Matrix inverse](https://dl.fbaipublicfiles.com/LAWT/inverse.tar.gz)
 
