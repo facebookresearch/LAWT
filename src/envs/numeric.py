@@ -98,7 +98,7 @@ class NumericEnvironment(object):
         elif self.input_encoding == "float":
             self.input_encoder = encoders.Positional(params, int(input_coder[1]), int(input_coder[2]))
         elif self.input_encoding == "floatsymbol":
-            self.input_encoder = encoders.FloatSymbol(params, int(output_coder[1]))
+            self.input_encoder = encoders.FloatSymbol(params, int(input_coder[1]))
         else:
             logger.error(f"Unknown encoder {self.input_encoding}")
 
